@@ -52,6 +52,8 @@ export const updateUser = async (
 ): Promise<UpdateUserResponse> => {
     const token = getAuthToken();
 
+    data.append("_method", "PATCH");
+
     try {
         const response = await fetch(`${API_URL}/user/settings`, {
             method: "POST",

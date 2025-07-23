@@ -17,7 +17,7 @@ Route::post('invite-user', [\App\Http\Controllers\AuthController::class, 'sendIn
 Route::get('users', [\App\Http\Controllers\UserController::class, 'getAllUsers'])->middleware('auth:sanctum');
 Route::delete('user/{user}', [\App\Http\Controllers\UserController::class, 'deleteUser'])->middleware('auth:sanctum');
 Route::patch('invite-resend/{email}', [\App\Http\Controllers\AuthController::class, 'resendUserInvite']);
-Route::post('user/settings', [\App\Http\Controllers\UserController::class, 'editUser'])->middleware('auth:sanctum');
+Route::patch('user/settings', [\App\Http\Controllers\UserController::class, 'editUser'])->middleware('auth:sanctum');
 
 
 

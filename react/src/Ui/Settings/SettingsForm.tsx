@@ -35,7 +35,6 @@ function SettingsForm() {
                 toast.error(
                     "Failed to update profile image. Please try again."
                 );
-
                 console.error(error);
             },
         });
