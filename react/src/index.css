@@ -1,0 +1,38 @@
+@font-face {
+    font-family: "Inter";
+    src: url("../src/assets/fonts/Inter_24pt-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: "Inter";
+    src: url("../src/assets/fonts/Inter_24pt-Medium.ttf") format("truetype");
+    font-weight: 500;
+    font-style: normal;
+}
+
+@import "tailwindcss";
+
+@theme {
+    --color-primary: #21409a;
+    --color-secondary: #f2f4f7;
+    --color-secondaryHover: #eaecf0;
+    --color-primaryHover: #1c3683;
+    --color-textGray: #344054;
+    --color-textLightGray: #98a2b3;
+    --color-sectionBg: #f9fafb;
+    --color-borderGray: #475467;
+    --color-disabledBorderGray: #d0d5dd;
+    --color-bdoBlueDark: #141e30;
+    --color-bdoBlueLight: #2a5298;
+    --color-bdoRed: #d92d20;
+    --color-bdoRedHover: #b9261b;
+    --color-iconColor: #667085;
+    --color-pendingBg: #fefbe8;
+    --color-pendingText: #a15c07;
+    --color-activeBg: #ecfdf3;
+    --color-activeText: #027a48;
+}
+body {
+    font-family: Inter, sans-serif;
+}
