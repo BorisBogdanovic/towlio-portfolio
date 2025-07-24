@@ -70,6 +70,11 @@ public function editUser(EditUserRequest $request)
         $user->profile_image = $url;
         $saved = $user->save();
        } 
+
+      $user->fill($request->only(['name', 'last_name', 'phone','city_id']));
+    
+
+    $user->save();
 return response()->json([
         'message' => 'Profile updated successfully',
         'user' => $user,

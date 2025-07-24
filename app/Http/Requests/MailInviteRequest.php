@@ -26,6 +26,7 @@ class MailInviteRequest extends FormRequest
             'token'=>['string'],
             'last_name'=>['string','required'],
             'name'=>['string','required'],
+             'phone' => 'required|string|regex:/^[0-9\+\-\s]{6,20}$/',
             ];
     }
 }

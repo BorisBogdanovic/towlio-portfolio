@@ -59,6 +59,7 @@ export const updateUser = async (
             method: "POST",
             headers: {
                 Authorization: `Bearer ${token}`,
+                Accept: "application/json",
             },
             body: data,
         });

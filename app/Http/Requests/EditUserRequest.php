@@ -22,7 +22,11 @@ class EditUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-           'profile_image' => 'sometimes|file|image|mimes:jpeg,png,jpg,gif|max:2048'
+           'profile_image' => 'sometimes|file|image|mimes:jpeg,png,jpg,gif|max:2048',
+           'name' => 'sometimes|string|min:2|max:50',
+            'last_name' => 'sometimes|string|min:2|max:50',
+            'city_id' => ['nullable', 'exists:cities,id']
+            // 'phone' => 'sometimes|string|regex:/^[0-9\+\-\s]{6,20}$/',
         ];
     }
 }
