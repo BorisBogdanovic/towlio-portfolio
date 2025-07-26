@@ -39,7 +39,7 @@ function RegisterDropdown({ selectedValue, onSelect }: RegisterDropdownProps) {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, []);
-    console.log(selectedValue);
+
     return (
         <div className="relative" ref={dropdownRef}>
             <button

@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Invite;
+
 use App\Http\Requests\EditUserRequest;
+use App\Http\Requests\UpdatePasswordRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 class UserController extends Controller
@@ -75,7 +77,7 @@ public function editUser(EditUserRequest $request)
     
 
     $user->save();
-return response()->json([
+        return response()->json([
         'message' => 'Profile updated successfully',
         'user' => $user,
     ]);
@@ -83,5 +85,18 @@ return response()->json([
 
 
 
+public function updatePassword(UpdatePasswordRequest $request)
+{
+    $user = auth()->user();
+
+    
+    $user->password = Hash::make($request->password);
+    $user->save();
+
+    return response()->json([
+    'status' => true,
+    'message' => 'Password updated successfully..'
+], 200);
+}
 
 }

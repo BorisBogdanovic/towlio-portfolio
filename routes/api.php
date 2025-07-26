@@ -19,6 +19,7 @@ Route::get('users', [\App\Http\Controllers\UserController::class, 'getAllUsers']
 Route::delete('user/{user}', [\App\Http\Controllers\UserController::class, 'deleteUser'])->middleware('auth:sanctum');
 Route::patch('invite-resend/{email}', [\App\Http\Controllers\AuthController::class, 'resendUserInvite']);
 Route::patch('user/settings', [\App\Http\Controllers\UserController::class, 'editUser'])->middleware('auth:sanctum');
+Route::patch('user/password', [\App\Http\Controllers\UserController::class, 'updatePassword'])->middleware('auth:sanctum');
 
 
 

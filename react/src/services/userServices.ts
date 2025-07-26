@@ -1,4 +1,9 @@
-import { Filters, UpdateUserResponse } from "../types/types";
+import {
+    Filters,
+    UpdatePasswordInput,
+    UpdatePasswordResponse,
+    UpdateUserResponse,
+} from "../types/types";
 import { getAuthToken } from "../utils/auth";
 import { API_URL } from "./apiConfig";
 
@@ -45,7 +50,7 @@ export const deleteUser = async (userId: number) => {
     return data;
 };
 
-////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////// EDIT IMAGE AND USER INFO
 
 export const updateUser = async (
     data: FormData
@@ -79,3 +84,26 @@ export const updateUser = async (
         }
     }
 };
+///////////////////////////////////////////////////////////////////////// EDIT USER PASSWORD
+export async function updatePassword(
+    data: UpdatePasswordInput
+): Promise<UpdatePasswordResponse> {
+    const token = getAuthToken();
+
+    const response = await fetch(`${API_URL}/user/password`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to update password");
+    }
+
+    return await response.json();
+}

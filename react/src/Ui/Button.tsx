@@ -12,6 +12,7 @@ function Button({
     children,
     type = "main",
     onClick,
+    disabled = false,
     htmlType = "button",
 }: ButtonProps) {
     if (type === "main") {
@@ -19,7 +20,8 @@ function Button({
             <button
                 type={htmlType}
                 onClick={onClick}
-                className="w-full text-sm font-medium flex items-center justify-center leading-5 bg-primary text-white rounded-lg px-4 py-3 cursor-pointer hover:bg-primaryHover transition duration-300 ease"
+                disabled={disabled}
+                className=" disabled:bg-[#BCCAF1] w-full text-sm font-medium flex items-center justify-center leading-5 bg-primary text-white rounded-lg px-4 py-3 cursor-pointer hover:bg-primaryHover transition duration-300 ease"
             >
                 {children}
             </button>

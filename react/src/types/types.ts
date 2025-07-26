@@ -135,7 +135,7 @@ export type ModalProps = {
     isOpen: boolean;
     title?: string;
     message: string;
-    confirmText?: string;
+    confirmText?: ReactNode;
     cancelText?: string;
     onConfirm: () => void;
     onCancel: () => void;
@@ -149,3 +149,14 @@ export type UpdateUserResponse = {
     message: string;
     user: User;
 };
+
+export interface UpdatePasswordInput {
+    current_password: string;
+    password: string;
+    password_confirmation: string;
+}
+
+export interface UpdatePasswordResponse {
+    status: boolean;
+    message: string;
+}

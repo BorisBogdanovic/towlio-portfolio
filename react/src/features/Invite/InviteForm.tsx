@@ -5,7 +5,7 @@ import { HiOutlinePlusSmall } from "react-icons/hi2";
 import Input from "../../Ui/Input";
 import Button from "../../Ui/Button";
 import Loader from "../../Ui/Loader";
-import PhoneHelerUi from "../../Ui/PhoneHelerUi";
+import PhoneHelerUi from "../../Ui/PhoneHelperUi";
 
 function InviteForm() {
     const {
