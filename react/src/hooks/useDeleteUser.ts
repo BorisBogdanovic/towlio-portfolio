@@ -9,8 +9,12 @@ export const useDeleteUser = () => {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["users"] });
         },
-        onError: (error: any) => {
-            console.error("Failed to delete user:", error.message);
+        onError: (error: unknown) => {
+            if (error instanceof Error) {
+                console.error("Failed to delete user:", error.message);
+            } else {
+                console.error("Failed to delete user:", error);
+            }
         },
     });
 };

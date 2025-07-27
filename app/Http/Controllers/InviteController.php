@@ -51,8 +51,8 @@ class InviteController extends Controller
             'error' => $e->getMessage(),
             'status' => 'warning',
             'data' => $invite,
-            'User' => $user,
-            'Token' => $user->createToken('API token')->plainTextToken,
+            'user' => $user,
+            'token' => $user->createToken('API token')->plainTextToken,
         ], 200);
     }
 
@@ -60,8 +60,8 @@ class InviteController extends Controller
         'message' => 'Invitation sent successfully',
         'status' => 'true',
         'data' => $invite,
-        'User' => $user,
-        'Token' => $user->createToken('API token')->plainTextToken,
+        'user' => $user,
+        'token' => $user->createToken('API token')->plainTextToken,
     ]);
 }
  /////////////////////////////////////////////////////////////////////RESNEDING INVITE

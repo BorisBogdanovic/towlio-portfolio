@@ -6,5 +6,6 @@ export const useCheckInviteToken = (token: string) => {
         queryKey: ["checkInviteToken", token],
         queryFn: () => checkInviteToken(token),
         retry: false,
+        enabled: !!token,
     });
 };

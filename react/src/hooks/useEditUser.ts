@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useDispatch } from "react-redux";
 import { updateUser as updateUserAction } from "../features/auth/authSlice";
 import { updateUser as updateUserService } from "../services/userServices";
-import type { UpdateUserResponse } from "../types/types";
+import { UpdateUserResponse } from "../types/user";
 
 export const useEditUser = () => {
     const queryClient = useQueryClient();

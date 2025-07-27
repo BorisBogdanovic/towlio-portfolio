@@ -1,11 +1,12 @@
 import { HiOutlineArrowPath, HiTrash } from "react-icons/hi2";
 import Button from "../../Ui/Button";
-import { User } from "../../types/types";
+
 import { useState } from "react";
 import { useDeleteUser } from "../../hooks/useDeleteUser";
 import toast from "react-hot-toast";
 import Modal from "../../Ui/Modal";
 import { useResendInvite } from "../../hooks/useResendInvite";
+import { User } from "../../types/user";
 
 interface SingleUserProps {
     user: User;
@@ -34,11 +35,7 @@ function SingleUser({ user }: SingleUserProps) {
 
     const handleResendInvite = () => {
         if (isResending) return; // sigurnosna zaštita
-        resendInvite(user.email, {
-            onSuccess: () => toast.success("Invitation resent"),
-            onError: (error: any) =>
-                toast.error(error.message || "Failed to resend invite"),
-        });
+        resendInvite(user.email);
     };
 
     return (

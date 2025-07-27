@@ -4,10 +4,9 @@ import {
     LoginResponse,
     RegisterPayload,
     RegisterResponse,
-} from "../types/types";
+} from "../types/auth";
 
 ///////////////////////////////////////////////////////////////////////// LOGIN
-
 export const login = async (payload: LoginPayload): Promise<LoginResponse> => {
     const response = await fetch(`${API_URL}/login`, {
         method: "POST",
@@ -21,30 +20,37 @@ export const login = async (payload: LoginPayload): Promise<LoginResponse> => {
     if (!response.ok) {
         throw new Error(data.message || "Login failed.");
     }
-
     return data;
 };
-///////////////////////////////////////////////////////////////////////// REGISTER
+////////////////////////////////////////////////////////////////////// REGISTER
 export async function registerUser({
     token,
     ...registerData
 }: RegisterPayload): Promise<RegisterResponse> {
-    const response = await fetch(`${API_URL}/register/${token}`, {
-        method: "PATCH",
-        headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-        },
-        body: JSON.stringify(registerData),
-    });
-    if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Registration failed");
-    }
-    const data = response.json();
+    try {
+        const response = await fetch(`${API_URL}/register/${token}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+            },
+            body: JSON.stringify(registerData),
+        });
 
-    console.log(data);
-    return data;
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.error || "Registration failed");
+        }
+
+        return data;
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            throw new Error(error.message || "Unexpected registration error");
+        } else {
+            throw new Error("An unknown error occurred during registration.");
+        }
+    }
 }
 ///////////////////////////////////////////////////////////////////////// LOGOUT
 export const logoutApi = async (token: string) => {
@@ -59,5 +65,6 @@ export const logoutApi = async (token: string) => {
     if (!response.ok) {
         throw new Error("Failed to logout");
     }
-    return response.json();
+
+    return await response.json();
 };

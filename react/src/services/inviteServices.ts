@@ -3,14 +3,15 @@ import {
     InviteCheckResponse,
     InvitePayload,
     InviteResponse,
-} from "../types/types";
+    ResendInviteResponse,
+} from "../types/invite";
 import { getAuthToken } from "../utils/auth";
-
-const authToken = getAuthToken();
 ///////////////////////////////////////////////////////////////////////// SEND INVITE
 export const inviteUser = async (
     payload: InvitePayload
 ): Promise<InviteResponse> => {
+    const authToken = getAuthToken();
+
     const response = await fetch(`${API_URL}/invite-user`, {
         method: "POST",
         headers: {
@@ -19,51 +20,66 @@ export const inviteUser = async (
         },
         body: JSON.stringify(payload),
     });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-        throw new Error(data.message || "Failed to send invite.");
+    let data;
+    try {
+        data = await response.json();
+    } catch {
+        throw new Error("Server error: Invalid JSON response.");
     }
-
+    if (!response.ok) {
+        throw new Error(data?.message || "Failed to send invite.");
+    }
     return data;
 };
-
 ///////////////////////////////////////////////////////////////////////// CHECK INVITE
 export const checkInviteToken = async (
     token: string
 ): Promise<InviteCheckResponse> => {
-    const response = await fetch(`${API_URL}/check-invite/${token}`, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        },
-    });
-    const data = await response.json();
-
-    if (!response.ok) {
-        throw new Error(data.message || "Failed to check invite token.");
+    try {
+        const response = await fetch(`${API_URL}/check-invite/${token}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        const data = await response.json();
+        if (!response.ok) {
+            throw new Error(data.message || "Failed to check invite token.");
+        }
+        return data;
+    } catch (err: unknown) {
+        if (err instanceof Error) {
+            throw new Error(
+                err.message || "Unexpected error checking invite token"
+            );
+        }
+        throw new Error("Unknown error checking invite token");
     }
-
-    return data;
 };
-
 ///////////////////////////////////////////////////////////////////////// RESEND INVITE
-export async function resendInvite(email: string) {
+export async function resendInvite(
+    email: string
+): Promise<ResendInviteResponse> {
     const authToken = getAuthToken();
     if (!authToken) throw new Error("User not authenticated");
-    const response = await fetch(`${API_URL}/invite-resend/${email}`, {
-        method: "PATCH",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${authToken}`,
-        },
-    });
-    if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to resend invite");
-    }
-    const data = await response.json();
+    try {
+        const response = await fetch(`${API_URL}/invite-resend/${email}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${authToken}`,
+            },
+        });
+        const data = await response.json();
+        if (!response.ok) {
+            throw new Error(data.message || "Failed to resend invite");
+        }
 
-    return data;
+        return data;
+    } catch (err: unknown) {
+        if (err instanceof Error) {
+            throw new Error(err.message || "Unexpected error resending invite");
+        }
+        throw new Error("Unknown error resending invite");
+    }
 }

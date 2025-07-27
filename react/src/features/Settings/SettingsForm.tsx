@@ -106,13 +106,9 @@ function SettingsForm() {
             },
             {
                 onSuccess: () => {
-                    toast.success("Password changed successfully!");
                     setIsPasswordModalOpen(false);
                     setNewPassword("");
                     setConfirmPassword("");
-                },
-                onError: (error: any) => {
-                    toast.error(error.message || "Failed to change password.");
                 },
             }
         );
