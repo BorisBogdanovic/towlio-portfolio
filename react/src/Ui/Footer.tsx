@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import Container from "./Container";
 import Logo from "./Logo";
 
@@ -39,9 +39,11 @@ function Footer() {
                             Salesperson List
                         </NavLink>
                     </div>
-                    <div className="">
-                        <Logo />
-                    </div>
+                    <Link to="/">
+                        <div className="w-35 mx-auto px-0">
+                            <Logo />
+                        </div>
+                    </Link>
                 </div>
                 <div className="h-[1px] w-full bg-disabledBorderGray my-8"></div>
                 <div className="flex items-center justify-between">

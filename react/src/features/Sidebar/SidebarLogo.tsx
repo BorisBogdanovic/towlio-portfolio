@@ -4,7 +4,7 @@ import Logo from "../../Ui/Logo";
 function SidebarLogo() {
     return (
         <Link to="/">
-            <div className="px-12 flex justify-center">
+            <div className="w-35 mx-auto px-0">
                 <Logo />
             </div>
         </Link>
