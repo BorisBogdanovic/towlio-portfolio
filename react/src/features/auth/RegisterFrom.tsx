@@ -234,11 +234,20 @@ function RegisterFrom() {
                                             Slazem se sa svim izjavama navedenim
                                             u
                                         </span>
-                                        <Link to={"/privacy-policy"}>
+                                        {/* <Link to={"/privacy-policy"}>
                                             <span className="text-primary hover:underline ml-[5px]">
                                                 Legal & Privacy
                                             </span>
-                                        </Link>
+                                        </Link> */}
+                                        <a
+                                            href="/privacy-policy"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            <span className="text-primary hover:underline ml-[5px]">
+                                                Legal & Privacy
+                                            </span>
+                                        </a>
                                     </p>
                                 </div>
                                 {checkboxError && (
