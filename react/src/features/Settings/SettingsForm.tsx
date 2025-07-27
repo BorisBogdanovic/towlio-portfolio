@@ -6,13 +6,13 @@ import { HiEye, HiEyeSlash, HiLockClosed } from "react-icons/hi2";
 import { RootState } from "../../App/store";
 import { useEditUser } from "../../hooks/useEditUser";
 import { useUpdatePassword } from "../../hooks/useEditPassword";
-import Button from "../Button";
-import ChangeImageButton from "../ChangeImageButton";
-import Input from "../Input";
-import RegisterDropdown from "../RegisterDropdown";
-import Modal from "../Modal";
-import Loader from "../Loader";
-import PhoneHelerUi from "../PhoneHelperUi";
+import Button from "../../Ui/Button";
+import ChangeImageButton from "../../Ui/ChangeImageButton";
+import Input from "../../Ui/Input";
+import RegisterDropdown from "../../Ui/RegisterDropdown";
+import Modal from "../../Ui/Modal";
+import Loader from "../../Ui/Loader";
+import PhoneHelerUi from "../../Ui/PhoneHelperUi";
 
 function SettingsForm() {
     const user = useSelector((state: RootState) => state.auth.user);

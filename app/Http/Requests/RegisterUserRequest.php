@@ -22,9 +22,19 @@ class RegisterUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'password' => 'required|string|confirmed|min:8|max:64',
-            'city' => 'required|exists:cities,id',
+            'password' => [
+            'required',
+            'string',
+            'min:8',
+            'confirmed',
+            'regex:/[a-z]/',      
+            'regex:/[A-Z]/',      
+            'regex:/[0-9]/',      
+            'regex:/[@$!%*#?&]/' 
+        ],
+        'city' => ['required', 'integer', 'exists:cities,id'],
             
          ];
     }
+   
 }

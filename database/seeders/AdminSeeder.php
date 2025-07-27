@@ -20,7 +20,7 @@ class AdminSeeder extends Seeder
             'email' => 'admin@gmail.com',  
             'password' => Hash::make('B0li$ta2025!'),  
             'is_admin' => true,  
-            'phone' => '1234567890',  
+            'phone' => '+381 63 1234567',  
           'profile_image' => 'https://rkxgxhniyyxsdxniswfk.supabase.co/storage/v1/object/public/images//profile.png',
             'status_id' => 1, 
             'city_id'=> 1

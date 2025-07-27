@@ -7,18 +7,16 @@ use App\Models\Invite;
 
 use App\Http\Requests\EditUserRequest;
 use App\Http\Requests\UpdatePasswordRequest;
+use App\Http\Requests\GetUsersRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 class UserController extends Controller
 {
 
-
-
-    public function getAllUsers(Request $request) 
+/////////////////////////////////////////////////////////////////////GET USERS
+public function getAllUsers(GetUsersRequest $request) 
 {
-
-    
-    $users = User::where('is_admin', 0)  
+$users = User::where('is_admin', 0)  
         ->with('city','status')
         ->orderBy('name', 'ASC');
 
@@ -36,9 +34,6 @@ class UserController extends Controller
             $query->where('name', 'LIKE', '%' . $request->search . '%')
                   ->orWhere('last_name', 'LIKE', '%' . $request->search . '%');
         });
-
-
-   
 }
  return response()->json($users->paginate(12));
 }
@@ -46,17 +41,14 @@ class UserController extends Controller
 public function deleteUser(User $user)
 {
 Invite::where('email', $user->email)->delete();
-
-   
-    $user->delete();
-
-    return response()->json([
+$user->delete();
+return response()->json([
         'status' => true,
         'message' => 'User successfully deleted'
     ]);
 }
 
-
+/////////////////////////////////////////////////////////////////////EDIT USER (NAME,LAST NAME,IMAGE,PHONE)
 public function editUser(EditUserRequest $request)
 {
     $user = auth()->user();
@@ -84,7 +76,7 @@ public function editUser(EditUserRequest $request)
 }
 
 
-
+/////////////////////////////////////////////////////////////////////EDIT USER PASSWORD
 public function updatePassword(UpdatePasswordRequest $request)
 {
     $user = auth()->user();

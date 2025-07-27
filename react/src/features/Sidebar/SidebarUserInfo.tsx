@@ -1,6 +1,6 @@
 import { HiArrowRightStartOnRectangle } from "react-icons/hi2";
 import { useLogout } from "../../hooks/useLogout";
-import Loader from "../Loader";
+import Loader from "../../Ui/Loader";
 
 type SidebarUserInfoProps = {
     name: string;

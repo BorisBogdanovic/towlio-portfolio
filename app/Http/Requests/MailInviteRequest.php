@@ -21,12 +21,12 @@ class MailInviteRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'email'=>['required','email','unique:users,email'],
-            'token'=>['string'],
-            'last_name'=>['string','required'],
-            'name'=>['string','required'],
-             'phone' => 'required|string|regex:/^[0-9\+\-\s]{6,20}$/',
-            ];
+       return [
+    'email' => ['required', 'email', 'unique:users,email'],
+    'token' => ['sometimes', 'string'], 
+    'last_name' => ['required', 'string', 'max:50'], 
+    'name' => ['required', 'string', 'max:50'],      
+    'phone' => ['required', 'string', 'regex:/^\+?[0-9\-\s]{6,20}$/'],
+];
     }
 }

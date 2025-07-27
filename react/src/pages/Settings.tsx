@@ -2,7 +2,7 @@ import { HiArrowLongLeft } from "react-icons/hi2";
 import ContentHeader from "../Ui/ContentHeader";
 
 import ContentHeading from "../Ui/ContentHeading";
-import SettingsForm from "../Ui/Settings/SettingsForm";
+import SettingsForm from "../features/Settings/SettingsForm";
 
 function Settings() {
     return (
