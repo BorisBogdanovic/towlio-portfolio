@@ -96,5 +96,4 @@ function Sidebar() {
         </nav>
     );
 }
-
 export default Sidebar;

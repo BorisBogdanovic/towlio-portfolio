@@ -13,14 +13,14 @@ import RegisterDropdown from "../../Ui/RegisterDropdown";
 import Modal from "../../Ui/Modal";
 import Loader from "../../Ui/Loader";
 import PhoneHelerUi from "../../Ui/PhoneHelperUi";
+import passwordImg from "../../assets/images/password.png";
+import { validatePassword } from "../../utils/validatePassword";
+import { SettingsFormValues } from "../../types/user";
 
 function SettingsForm() {
     const user = useSelector((state: RootState) => state.auth.user);
-    const [currentPassword, setCurrentPassword] = useState<string>("");
     const [showCurrentPassword, setShowCurrentPassword] =
         useState<boolean>(false);
-    const [newPassword, setNewPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
     const [showConfirmPassword, setShowConfirmPassword] =
         useState<boolean>(false);
     const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -37,15 +37,30 @@ function SettingsForm() {
         useUpdatePassword();
 
     //////////////////////////////////////////////////////////REACT FROM HOOK
-    const { register, handleSubmit, setValue, watch } = useForm({
-        defaultValues: {
-            name: user?.name || "",
-            last_name: user?.last_name || "",
-            phone: user?.phone || "",
-            email: user?.email || "",
-            city_id: user?.city_id ? Number(user.city_id) : null,
-        },
-    });
+    const { register, handleSubmit, setValue, watch, getValues, reset } =
+        useForm<SettingsFormValues>({
+            defaultValues: {
+                name: user?.name || "",
+                last_name: user?.last_name || "",
+                phone: user?.phone || "",
+                email: user?.email || "",
+                city_id: user?.city_id ? Number(user.city_id) : null,
+                currentPassword: "",
+                newPassword: "",
+                confirmPassword: "",
+            },
+        });
+
+    const currentPassword = watch("currentPassword");
+    const newPassword = watch("newPassword");
+    const confirmPassword = watch("confirmPassword");
+
+    const isChangePasswordDisabled =
+        !currentPassword ||
+        !newPassword ||
+        !confirmPassword ||
+        newPassword !== confirmPassword ||
+        !validatePassword(newPassword);
 
     //////////////////////////////////////////////////// CHECK IF THE FORM FIELDS AND PROFILE IMAGE REMAIN UNCHANGE
     const watchedName = watch("name");
@@ -90,14 +105,14 @@ function SettingsForm() {
         setPreviewUrl(URL.createObjectURL(file));
     };
     ////////////////////////////////////////////////////////////////EDITING PASSWORD
-    const handlePasswordChange = () => {
-        if (!newPassword || !confirmPassword) {
-            return;
-        }
 
-        if (newPassword !== confirmPassword) {
-            return;
-        }
+    const handlePasswordChange = () => {
+        const { currentPassword, newPassword, confirmPassword } = getValues();
+
+        if (!currentPassword || !newPassword || !confirmPassword) return;
+        if (newPassword !== confirmPassword) return;
+        if (!validatePassword(newPassword)) return;
+
         editPassword(
             {
                 current_password: currentPassword,
@@ -107,8 +122,11 @@ function SettingsForm() {
             {
                 onSuccess: () => {
                     setIsPasswordModalOpen(false);
-                    setNewPassword("");
-                    setConfirmPassword("");
+                    reset({
+                        currentPassword: "",
+                        newPassword: "",
+                        confirmPassword: "",
+                    });
                 },
             }
         );
@@ -146,7 +164,7 @@ function SettingsForm() {
                     <div className="w-sm">
                         <RegisterDropdown
                             selectedValue={selectedCity}
-                            onSelect={(id) => setValue("city_id", id as number)}
+                            onSelect={(id) => setValue("city_id", id)}
                         />
                     </div>
                 </div>
@@ -240,7 +258,6 @@ function SettingsForm() {
             <Modal
                 isOpen={isPasswordModalOpen}
                 title="Change Password"
-                message="Change Password"
                 confirmText={
                     isChangingPassword ? (
                         <div className="flex items-center gap-2">
@@ -251,22 +268,26 @@ function SettingsForm() {
                         "Change Password"
                     )
                 }
+                icon={passwordImg}
                 cancelText="Cancel"
+                message="Password: min 8 chars, uppercase, lowercase, number & special char."
                 onConfirm={handlePasswordChange}
                 onCancel={() => {
                     setIsPasswordModalOpen(false);
-                    setConfirmPassword("");
-                    setNewPassword("");
-                    setCurrentPassword("");
+                    reset({
+                        currentPassword: "",
+                        newPassword: "",
+                        confirmPassword: "",
+                    });
                 }}
                 type="main"
+                confirmDisabled={isChangePasswordDisabled}
             >
                 <Input
                     placeholder="Current Password"
                     type={showCurrentPassword ? "text" : "password"}
                     id="currentPassword"
-                    value={currentPassword}
-                    onChange={(e) => setCurrentPassword(e.target.value)}
+                    {...register("currentPassword", { required: true })}
                     icon={<HiLockClosed color="#667085" size={24} />}
                     rightIcon={
                         <button
@@ -284,12 +305,16 @@ function SettingsForm() {
                         </button>
                     }
                 />
+
                 <Input
                     placeholder="New Password"
                     type={showPassword ? "text" : "password"}
-                    id="password"
-                    value={newPassword}
-                    onChange={(e) => setNewPassword(e.target.value)}
+                    id="newPassword"
+                    {...register("newPassword", {
+                        required: true,
+                        minLength: 8,
+                        validate: (val) => validatePassword(val),
+                    })}
                     icon={<HiLockClosed color="#667085" size={24} />}
                     rightIcon={
                         <button
@@ -310,8 +335,12 @@ function SettingsForm() {
                     placeholder="Confirm New Password"
                     type={showConfirmPassword ? "text" : "password"}
                     id="confirmPassword"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    {...register("confirmPassword", {
+                        required: true,
+                        validate: (val) =>
+                            val === watch("newPassword") ||
+                            "Passwords do not match",
+                    })}
                     icon={<HiLockClosed color="#667085" size={24} />}
                     rightIcon={
                         <button

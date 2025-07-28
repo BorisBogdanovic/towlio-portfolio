@@ -46,3 +46,14 @@ export interface UpdatePasswordResponse {
 export interface DeleteUserResponse {
     message: string;
 }
+
+export interface SettingsFormValues {
+    name: string;
+    last_name: string;
+    phone: string;
+    email: string;
+    city_id: number | null;
+    currentPassword: string;
+    newPassword: string;
+    confirmPassword: string;
+}

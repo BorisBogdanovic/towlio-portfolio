@@ -37,4 +37,6 @@ export type ModalProps = {
     onCancel: () => void;
     type?: "main" | "delete" | "secondary" | "small" | "refresh";
     children?: ReactNode;
+    icon: string;
+    confirmDisabled?: boolean;
 };

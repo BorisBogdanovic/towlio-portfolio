@@ -3,7 +3,7 @@ import GrediantBg from "../../Ui/GrediantBg";
 import Content from "../../Ui/Content";
 import Container from "../../Ui/Container";
 
-import Sidebar from "../../features/Sidebar/Slidebar";
+import Sidebar from "../../features/Sidebar/Sidebar";
 import AppTopBar from "../../features/AppTopBar/AppTopBar";
 import Footer from "../../features/Footer/Footer";
 
