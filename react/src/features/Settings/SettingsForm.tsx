@@ -42,7 +42,9 @@ function SettingsForm() {
             defaultValues: {
                 name: user?.name || "",
                 last_name: user?.last_name || "",
-                phone: user?.phone || "",
+                phone: user?.phone?.startsWith("+381")
+                    ? user.phone.replace("+381", "")
+                    : user?.phone || "",
                 email: user?.email || "",
                 city_id: user?.city_id ? Number(user.city_id) : null,
                 currentPassword: "",

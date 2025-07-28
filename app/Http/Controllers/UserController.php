@@ -53,23 +53,31 @@ public function editUser(EditUserRequest $request)
 {
     $user = auth()->user();
 
+    
     if ($request->hasFile('profile_image')) {
-       if ($user->profile_image && !str_contains($user->profile_image, 'supabase.co')) {
+        if ($user->profile_image && !str_contains($user->profile_image, 'supabase.co')) {
             $previousPath = str_replace('/storage/', '', parse_url($user->profile_image, PHP_URL_PATH));
-            
             Storage::disk('public')->delete($previousPath);
         }
         $path = $request->file('profile_image')->store('profile_images', 'public');
-       $url = asset(Storage::url($path));
+        $url = asset(Storage::url($path));
         $user->profile_image = $url;
-        $saved = $user->save();
-       } 
+        $user->save();
+    }
 
-      $user->fill($request->only(['name', 'last_name', 'phone','city_id']));
     
+    $data = $request->only(['name', 'last_name', 'phone', 'city_id']);
 
+    if (!empty($data['phone'])) {
+        $rawPhone = trim($data['phone']);
+        $normalizedPhone = (Str::startsWith($rawPhone, '+381') ? '' : '+381') . ltrim($rawPhone, '0');
+        $data['phone'] = $normalizedPhone;
+    }
+
+    $user->fill($data);
     $user->save();
-        return response()->json([
+
+    return response()->json([
         'message' => 'Profile updated successfully',
         'user' => $user,
     ]);
@@ -92,3 +100,5 @@ public function updatePassword(UpdatePasswordRequest $request)
 }
 
 }
+
+
