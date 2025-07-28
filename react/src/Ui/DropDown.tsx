@@ -1,17 +1,6 @@
 import { useState } from "react";
 import { HiChevronDown } from "react-icons/hi2";
-
-interface Item {
-    id: number | string;
-    name: string;
-}
-
-interface DropDownProps {
-    array: Item[];
-    placeholder: string;
-    selectedValue: number | null;
-    onSelect: (val: number | null) => void;
-}
+import { DropDownProps, Item } from "../types";
 
 function DropDown({
     array,
@@ -19,7 +8,7 @@ function DropDown({
     selectedValue,
     onSelect,
 }: DropDownProps) {
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState<boolean>(false);
 
     const toggleDropdown = () => setIsOpen(!isOpen);
 
@@ -27,16 +16,14 @@ function DropDown({
         onSelect(Number(item.id));
         setIsOpen(false);
     };
-
+    const selectedItem = array.find((item) => item.id === selectedValue);
     return (
         <div className="relative">
             <button
                 className="h-[50px] flex items-center justify-between p-4 border border-disabledBorderGray rounded-lg text-textGray cursor-pointer w-[250px]"
                 onClick={toggleDropdown}
             >
-                {selectedValue
-                    ? array.find((item) => item.id === selectedValue)?.name
-                    : placeholder}
+                {selectedItem ? selectedItem.name : placeholder}
                 <HiChevronDown />
             </button>
 

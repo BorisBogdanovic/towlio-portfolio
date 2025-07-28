@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { HiCalendarDays } from "react-icons/hi2";
 import { HiOutlineClock } from "react-icons/hi2";
-import { formatDate, getCurrentTime } from "../utils/dateUtils";
+import { formatDate, getCurrentTime } from "../../utils/dateUtils";
 function DateAndTime() {
-    const [formattedDate, setFormattedDate] = useState("");
-    const [currentTime, setCurrentTime] = useState("");
+    const [formattedDate, setFormattedDate] = useState<string>("");
+    const [currentTime, setCurrentTime] = useState<string>("");
 
     useEffect(() => {
         const now = new Date();
@@ -20,6 +20,7 @@ function DateAndTime() {
 
         return () => clearInterval(interval);
     }, []);
+
     return (
         <div className=" text-sm leading-5 text-white flex justify-center items-center gap-8">
             <div className="flex gap-[4px]">

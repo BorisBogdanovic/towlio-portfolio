@@ -1,11 +1,5 @@
-import { forwardRef, InputHTMLAttributes, ReactNode } from "react";
-
-type InputProps = {
-    icon?: ReactNode;
-    rightIcon?: ReactNode;
-    className?: string;
-    inputClassName?: string; // <- nova prop za direktnu kontrolu inputa
-} & InputHTMLAttributes<HTMLInputElement>;
+import { forwardRef } from "react";
+import { InputProps } from "../types";
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
     (

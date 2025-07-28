@@ -23,3 +23,15 @@ export interface RegisterResponse {
     message: string;
     user: User;
 }
+
+//Forms
+export interface LoginFormInputs {
+    email: string;
+    password: string;
+}
+
+export interface RegisterFormData {
+    email: string;
+    password: string;
+    password_confirmation: string;
+}

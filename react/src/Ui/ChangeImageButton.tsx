@@ -7,7 +7,6 @@ function ChangeImageButton({
     onFileSelect: (file: File) => void;
 }) {
     const fileInputRef = useRef<HTMLInputElement>(null);
-
     const handleButtonClick = () => {
         fileInputRef.current?.click();
     };
@@ -18,7 +17,6 @@ function ChangeImageButton({
             onFileSelect(file);
         }
     };
-
     return (
         <>
             <Button type="main" onClick={handleButtonClick}>

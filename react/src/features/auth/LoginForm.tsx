@@ -1,16 +1,15 @@
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import { HiEnvelope, HiLockClosed, HiEye, HiEyeSlash } from "react-icons/hi2";
 import Logo from "../../Ui/Logo";
 import Button from "../../Ui/Button";
 import Input from "../../Ui/Input";
+import Loader from "../../Ui/Loader";
 import FormName from "../../Ui/FormName";
 import FormDescription from "../../Ui/FormDescription";
-import { HiEnvelope, HiLockClosed, HiEye, HiEyeSlash } from "react-icons/hi2";
-
-import { useState } from "react";
-import { useForm } from "react-hook-form";
 import { useLogin } from "../../hooks/useLogin";
-import Loader from "../../Ui/Loader";
-import { LoginFormInputs } from "../../types/types";
+import { LoginFormInputs } from "../../types/auth";
 
 function LoginForm() {
     const [showPassword, setShowPassword] = useState(false);
@@ -99,7 +98,7 @@ function LoginForm() {
                         Forgot password?
                     </Link>
 
-                    <Button htmlType="submit" type="main">
+                    <Button htmlType="submit" type="main" disabled={isPending}>
                         {isPending ? (
                             <div className="flex items-center justify-center gap-2">
                                 <span>Signing in...</span>

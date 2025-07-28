@@ -37,7 +37,7 @@ export const fetchUsers = async (
         const data = await response.json();
         return data;
     } catch (error) {
-        console.error("Greška pri dohvatanju korisnika:", error);
+        console.error("Failed to fetch users:", error);
         throw error;
     }
 };

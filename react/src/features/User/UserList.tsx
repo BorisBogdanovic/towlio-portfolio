@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useUsers } from "../../hooks/useUser";
 import { setPage } from "../User/userSlice";
-import { User } from "../../types/types";
+import { User } from "../../types";
 import Loader from "../../Ui/Loader";
 import SingleUser from "./SingleUser";
 import UserListHeader from "./UserListHeader";

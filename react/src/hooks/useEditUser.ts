@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useDispatch } from "react-redux";
-import { updateUser as updateUserAction } from "../features/auth/authSlice";
+import { updateUser as updateUserAction } from "../features/Auth/authSlice";
 import { updateUser as updateUserService } from "../services/userServices";
 import { UpdateUserResponse } from "../types/user";
 

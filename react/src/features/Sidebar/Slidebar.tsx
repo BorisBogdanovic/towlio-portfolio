@@ -9,14 +9,12 @@ import {
     HiOutlinePlusSmall,
     HiUserGroup,
 } from "react-icons/hi2";
-
-///////////////////////////////////////////////////////////
 import SidebarSubheading from "./SidebarSubheading";
 import SidebarLogo from "./SidebarLogo";
 import SidebarAccordion from "./SidebarAccordion";
 import SidebarLink from "./SidebarLink";
 import SidebarUserInfo from "./SidebarUserInfo";
-///////////////////////////////////////////////////////////
+
 function Sidebar() {
     const user = useSelector((state: RootState) => state.auth.user);
 

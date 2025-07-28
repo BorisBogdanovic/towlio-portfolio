@@ -1,4 +1,4 @@
-import RegisterFrom from "../features/auth/RegisterFrom";
+import RegisterFrom from "../features/Auth/RegisterFrom";
 
 function Register() {
     return (

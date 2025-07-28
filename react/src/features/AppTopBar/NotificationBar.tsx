@@ -1,6 +1,6 @@
 import { HiOutlineBell } from "react-icons/hi2";
 import { useSelector } from "react-redux";
-import { RootState } from "../App/store";
+import { RootState } from "../../App/store";
 
 function NotificationBar() {
     const user = useSelector((state: RootState) => state.auth.user);

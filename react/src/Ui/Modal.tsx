@@ -1,4 +1,4 @@
-import { ModalProps } from "../types/types";
+import { ModalProps } from "../types";
 import Button from "./Button";
 import warning from "../assets/images/warning.svg";
 

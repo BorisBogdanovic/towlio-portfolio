@@ -1,11 +1,11 @@
 import { Outlet } from "react-router-dom";
-
 import GrediantBg from "../../Ui/GrediantBg";
-import AppTopBar from "../../Ui/AppTopBar";
 import Content from "../../Ui/Content";
 import Container from "../../Ui/Container";
-import Footer from "../../Ui/Footer";
+
 import Sidebar from "../../features/Sidebar/Slidebar";
+import AppTopBar from "../../features/AppTopBar/AppTopBar";
+import Footer from "../../features/Footer/Footer";
 
 function MainLayout() {
     return (

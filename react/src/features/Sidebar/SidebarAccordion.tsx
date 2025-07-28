@@ -8,7 +8,7 @@ type Props = {
 };
 
 export default function SidebarAccordion({ icon, label, children }: Props) {
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState<boolean>(false);
 
     return (
         <div>

@@ -1,6 +1,6 @@
 import { Link, NavLink } from "react-router-dom";
-import Container from "./Container";
-import Logo from "./Logo";
+import Container from "../../Ui/Container";
+import Logo from "../../Ui/Logo";
 
 function Footer() {
     return (

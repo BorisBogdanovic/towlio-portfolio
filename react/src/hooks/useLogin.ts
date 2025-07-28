@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { login as loginService } from "../services/authServices";
 import { useDispatch } from "react-redux";
-import { setCredentials } from "../features/auth/authSlice";
+import { setCredentials } from "../features/Auth/authSlice";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 

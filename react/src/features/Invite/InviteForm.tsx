@@ -1,11 +1,11 @@
 import { useForm } from "react-hook-form";
-import { InvitePayload } from "../../types/types";
-import { useSendInvite } from "../../hooks/useSendInvite";
 import { HiOutlinePlusSmall } from "react-icons/hi2";
+import { useSendInvite } from "../../hooks/useSendInvite";
 import Input from "../../Ui/Input";
 import Button from "../../Ui/Button";
 import Loader from "../../Ui/Loader";
 import PhoneHelerUi from "../../Ui/PhoneHelperUi";
+import { InvitePayload } from "../../types/invite";
 
 function InviteForm() {
     const {

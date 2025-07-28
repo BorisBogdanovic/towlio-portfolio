@@ -1,5 +1,5 @@
-import Container from "./Container";
-import DateAndTime from "../Ui/DateAndTime";
+import Container from "../../Ui/Container";
+import DateAndTime from "./DateAndTime";
 import NotificationBar from "./NotificationBar";
 
 function AppTopBar() {

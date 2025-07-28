@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import authReducer, { setCredentials } from "../features/auth/authSlice";
+import authReducer, { setCredentials } from "../features/Auth/authSlice";
 import userReducer from "../features/User/userSlice";
 
 export const store = configureStore({
