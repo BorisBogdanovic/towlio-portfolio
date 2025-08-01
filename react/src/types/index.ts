@@ -40,3 +40,14 @@ export type ModalProps = {
     icon: string;
     confirmDisabled?: boolean;
 };
+
+export type PawsordModalProps = {
+    isOpen: boolean;
+    title?: string;
+    message: string;
+
+    onCancel: () => void;
+
+    children?: ReactNode;
+    icon: string;
+};

@@ -15,7 +15,7 @@ function Button({
     type = "main",
     onClick,
     disabled = false,
-    htmlType = "button",
+    htmlType = "submit",
 }: ButtonProps) {
     const className = buttonClasses[type] || "";
 

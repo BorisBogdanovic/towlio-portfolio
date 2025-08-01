@@ -57,3 +57,8 @@ export interface SettingsFormValues {
     newPassword: string;
     confirmPassword: string;
 }
+export interface PasswordFormData {
+    currentPassword: string;
+    newPassword: string;
+    confirmPassword: string;
+}

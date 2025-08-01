@@ -2,28 +2,22 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { HiEye, HiEyeSlash, HiLockClosed } from "react-icons/hi2";
 import { RootState } from "../../App/store";
 import { useEditUser } from "../../hooks/useEditUser";
-import { useUpdatePassword } from "../../hooks/useEditPassword";
 import Button from "../../Ui/Button";
 import ChangeImageButton from "../../Ui/ChangeImageButton";
 import Input from "../../Ui/Input";
 import RegisterDropdown from "../../Ui/RegisterDropdown";
-import Modal from "../../Ui/Modal";
 import Loader from "../../Ui/Loader";
 import PhoneHelerUi from "../../Ui/PhoneHelperUi";
-import passwordImg from "../../assets/images/password.png";
-import { validatePassword } from "../../utils/validatePassword";
 import { SettingsFormValues } from "../../types/user";
+import ChangePasswordModal from "../../Ui/ChangePasswordModal";
+import passwordImg from "../../assets/images/password.png";
+
+import EditPasswordForm from "./EditPasswordForm";
 
 function SettingsForm() {
     const user = useSelector((state: RootState) => state.auth.user);
-    const [showCurrentPassword, setShowCurrentPassword] =
-        useState<boolean>(false);
-    const [showConfirmPassword, setShowConfirmPassword] =
-        useState<boolean>(false);
-    const [showPassword, setShowPassword] = useState<boolean>(false);
     const [isPasswordModalOpen, setIsPasswordModalOpen] =
         useState<boolean>(false);
     const [newProfileImage, setNewProfileImage] = useState<File | null>(null);
@@ -33,11 +27,9 @@ function SettingsForm() {
 
     //////////////////////////////////////////////////////////REACT QUERY
     const { mutate, isPending } = useEditUser();
-    const { mutate: editPassword, isPending: isChangingPassword } =
-        useUpdatePassword();
 
     //////////////////////////////////////////////////////////REACT FROM HOOK
-    const { register, handleSubmit, setValue, watch, getValues, reset } =
+    const { register, handleSubmit, setValue, watch } =
         useForm<SettingsFormValues>({
             defaultValues: {
                 name: user?.name || "",
@@ -47,40 +39,37 @@ function SettingsForm() {
                     : user?.phone || "",
                 email: user?.email || "",
                 city_id: user?.city_id ? Number(user.city_id) : null,
-                currentPassword: "",
-                newPassword: "",
-                confirmPassword: "",
             },
         });
-
-    const currentPassword = watch("currentPassword");
-    const newPassword = watch("newPassword");
-    const confirmPassword = watch("confirmPassword");
-
-    const isChangePasswordDisabled =
-        !currentPassword ||
-        !newPassword ||
-        !confirmPassword ||
-        newPassword !== confirmPassword ||
-        !validatePassword(newPassword);
-
     //////////////////////////////////////////////////// CHECK IF THE FORM FIELDS AND PROFILE IMAGE REMAIN UNCHANGE
     const watchedName = watch("name");
     const watchedLastName = watch("last_name");
     const watchedPhone = watch("phone");
     const watchedCityId = watch("city_id");
 
+    const normalizePhone = (phone: string) =>
+        phone.startsWith("+381") ? phone.replace("+381", "") : phone;
+
     const isFormUnchanged =
         watchedName === user?.name &&
         watchedLastName === user?.last_name &&
-        watchedPhone === user?.phone &&
+        normalizePhone(watchedPhone || "") ===
+            normalizePhone(user?.phone || "") &&
         watchedCityId === (user?.city_id ? Number(user.city_id) : null) &&
         !newProfileImage;
 
     /////////////////////////////////////////////////////////////////////////////////////////
     const selectedCity = watch("city_id");
     //////////////////////////////////////////////////////////////////////////////SUBMIT FORM
-    const onSubmit = handleSubmit((formValues) => {
+
+    /////////////////////////////////////////////////////////////////DISPLAY SELECTED IMAGE
+    const handleImageSelect = (file: File) => {
+        setNewProfileImage(file);
+        setPreviewUrl(URL.createObjectURL(file));
+    };
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    const onSubmit = (formValues: SettingsFormValues) => {
         const formData = new FormData();
         formData.append("name", formValues.name);
         formData.append("last_name", formValues.last_name);
@@ -90,6 +79,7 @@ function SettingsForm() {
         if (newProfileImage) {
             formData.append("profile_image", newProfileImage);
         }
+
         mutate(formData, {
             onSuccess: () => {
                 setNewProfileImage(null);
@@ -100,43 +90,15 @@ function SettingsForm() {
                 console.error(error);
             },
         });
-    });
-    /////////////////////////////////////////////////////////////////DISPLAY SELECTED IMAGE
-    const handleImageSelect = (file: File) => {
-        setNewProfileImage(file);
-        setPreviewUrl(URL.createObjectURL(file));
     };
-    ////////////////////////////////////////////////////////////////EDITING PASSWORD
 
-    const handlePasswordChange = () => {
-        const { currentPassword, newPassword, confirmPassword } = getValues();
-
-        if (!currentPassword || !newPassword || !confirmPassword) return;
-        if (newPassword !== confirmPassword) return;
-        if (!validatePassword(newPassword)) return;
-
-        editPassword(
-            {
-                current_password: currentPassword,
-                password: newPassword,
-                password_confirmation: confirmPassword,
-            },
-            {
-                onSuccess: () => {
-                    setIsPasswordModalOpen(false);
-                    reset({
-                        currentPassword: "",
-                        newPassword: "",
-                        confirmPassword: "",
-                    });
-                },
-            }
-        );
-    };
-    /////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     return (
         <>
-            <form className="flex flex-col w-2xl gap-4 m-4" onSubmit={onSubmit}>
+            <form
+                className="flex flex-col w-2xl gap-4 m-4"
+                onSubmit={handleSubmit(onSubmit)}
+            >
                 {/* //////////////////////////////////////////////////////////////IMAGE */}
                 <div className="flex justify-between">
                     <span className="text-sm text-textGray leading-5">
@@ -227,9 +189,11 @@ function SettingsForm() {
                             readOnly
                             inputClassName="text-textLightGray border-disabledBorderGray focus:outline-none focus:ring-0 focus:border-disabledBorderGray"
                         />
+
                         <div>
                             <Button
                                 type="main"
+                                htmlType="button"
                                 onClick={() => {
                                     setIsPasswordModalOpen(true);
                                 }}
@@ -239,12 +203,9 @@ function SettingsForm() {
                         </div>
                     </div>
                 </div>
+
                 <div className="w-[150px]">
-                    <Button
-                        type="main"
-                        htmlType="submit"
-                        disabled={isPending || isFormUnchanged}
-                    >
+                    <Button type="main" disabled={isFormUnchanged}>
                         {isPending ? (
                             <div className="flex items-center gap-2">
                                 <Loader wClass="w-4" hClass="h-4" />
@@ -256,111 +217,21 @@ function SettingsForm() {
                     </Button>
                 </div>
             </form>
+
             {/* //////////////////////////////////////////////////////////////MODAL*/}
-            <Modal
-                isOpen={isPasswordModalOpen}
-                title="Change Password"
-                confirmText={
-                    isChangingPassword ? (
-                        <div className="flex items-center gap-2">
-                            <Loader wClass="w-4" hClass="h-4" />
-                            <span> ...changing </span>
-                        </div>
-                    ) : (
-                        "Change Password"
-                    )
-                }
-                icon={passwordImg}
-                cancelText="Cancel"
-                message="Password: min 8 chars, uppercase, lowercase, number & special char."
-                onConfirm={handlePasswordChange}
+            <ChangePasswordModal
                 onCancel={() => {
                     setIsPasswordModalOpen(false);
-                    reset({
-                        currentPassword: "",
-                        newPassword: "",
-                        confirmPassword: "",
-                    });
                 }}
-                type="main"
-                confirmDisabled={isChangePasswordDisabled}
+                isOpen={isPasswordModalOpen}
+                icon={passwordImg}
+                title="Change Password"
+                message="Password: min 8 chars, uppercase, lowercase, number & special char."
             >
-                <Input
-                    placeholder="Current Password"
-                    type={showCurrentPassword ? "text" : "password"}
-                    id="currentPassword"
-                    {...register("currentPassword", { required: true })}
-                    icon={<HiLockClosed color="#667085" size={24} />}
-                    rightIcon={
-                        <button
-                            type="button"
-                            onClick={() =>
-                                setShowCurrentPassword((prev) => !prev)
-                            }
-                            className="focus:outline-none"
-                        >
-                            {showCurrentPassword ? (
-                                <HiEyeSlash color="#667085" size={24} />
-                            ) : (
-                                <HiEye color="#667085" size={24} />
-                            )}
-                        </button>
-                    }
+                <EditPasswordForm
+                    onSuccess={() => setIsPasswordModalOpen(false)}
                 />
-
-                <Input
-                    placeholder="New Password"
-                    type={showPassword ? "text" : "password"}
-                    id="newPassword"
-                    {...register("newPassword", {
-                        required: true,
-                        minLength: 8,
-                        validate: (val) => validatePassword(val),
-                    })}
-                    icon={<HiLockClosed color="#667085" size={24} />}
-                    rightIcon={
-                        <button
-                            type="button"
-                            onClick={() => setShowPassword((prev) => !prev)}
-                            className="focus:outline-none"
-                        >
-                            {showPassword ? (
-                                <HiEyeSlash color="#667085" size={24} />
-                            ) : (
-                                <HiEye color="#667085" size={24} />
-                            )}
-                        </button>
-                    }
-                />
-
-                <Input
-                    placeholder="Confirm New Password"
-                    type={showConfirmPassword ? "text" : "password"}
-                    id="confirmPassword"
-                    {...register("confirmPassword", {
-                        required: true,
-                        validate: (val) =>
-                            val === watch("newPassword") ||
-                            "Passwords do not match",
-                    })}
-                    icon={<HiLockClosed color="#667085" size={24} />}
-                    rightIcon={
-                        <button
-                            type="button"
-                            onClick={() =>
-                                setShowConfirmPassword((prev) => !prev)
-                            }
-                            className="focus:outline-none"
-                        >
-                            {showConfirmPassword ? (
-                                <HiEyeSlash color="#667085" size={24} />
-                            ) : (
-                                <HiEye color="#667085" size={24} />
-                            )}
-                        </button>
-                    }
-                />
-            </Modal>
+            </ChangePasswordModal>
         </>
     );
 }

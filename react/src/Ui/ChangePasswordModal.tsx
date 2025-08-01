@@ -1,21 +1,15 @@
-import { ModalProps } from "../types";
-import Button from "./Button";
+import { PawsordModalProps } from "../types";
 import warning from "../assets/images/warning.svg";
 import { useEffect } from "react";
 
-function Modal({
-    isOpen = true,
+function ChangePasswordModal({
+    isOpen,
     title,
     message = "",
-    confirmText = "Confirm",
-    cancelText = "Cancel",
-    onConfirm,
     onCancel,
-    type = "delete",
     children,
     icon = warning,
-    confirmDisabled,
-}: ModalProps) {
+}: PawsordModalProps) {
     ////////////////////////////////////////////CLOSING MODAL ON ESCAPE
     useEffect(() => {
         if (!isOpen) return;
@@ -46,31 +40,18 @@ function Modal({
                         {title}
                     </span>
                 </div>
-                <div className="py-6 px-6 flex flex-col items-center justify-center gap-4">
+                <div className=" flex flex-col items-center justify-center gap-2">
                     {message && (
                         <>
-                            <img className="mb-4" src={icon} alt="" />
-                            <p className="font-medium text-4 leading-6 text-textLightGray text-center">
+                            <img className="mb-4 mt-6" src={icon} alt="" />
+                            <p className="font-medium text-4 leading-6 text-textGray text-center w-sm">
                                 {message}
                             </p>
                         </>
                     )}
-                    <div className="w-sm flex flex-col gap-4"> {children}</div>
-                </div>
-                <div className="px-4 py-3 flex items-center justify-end gap-3 bg-sectionBg border-t border-disabledBorderGray">
-                    <div className="w-[150px]">
-                        <Button type="secondary" onClick={onCancel}>
-                            {cancelText}
-                        </Button>
-                    </div>
-                    <div className="w-[150px]">
-                        <Button
-                            type={type}
-                            onClick={onConfirm}
-                            disabled={confirmDisabled}
-                        >
-                            {confirmText}
-                        </Button>
+                    <div className="w-full flex flex-col gap-4">
+                        {" "}
+                        {children}
                     </div>
                 </div>
             </div>
@@ -78,4 +59,4 @@ function Modal({
     );
 }
 
-export default Modal;
+export default ChangePasswordModal;
