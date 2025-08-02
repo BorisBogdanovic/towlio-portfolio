@@ -86,7 +86,7 @@ public function forgot(ForgotPasswordRequest $request)
 
    return response()->json([
     'status' => 'Unable to send reset link. Please check the email.',
-    'error_code' => $status,  // <-- Ovaj red pravi problem
+    'error_code' => $status,  
 ], 422);
 }
 /////////////////////////////////////////////////////////////////////RESET PASSWORD
