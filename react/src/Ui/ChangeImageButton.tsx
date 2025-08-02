@@ -19,7 +19,7 @@ function ChangeImageButton({
     };
     return (
         <>
-            <Button type="main" onClick={handleButtonClick}>
+            <Button type="main" htmlType="button" onClick={handleButtonClick}>
                 Change image
             </Button>
             <input

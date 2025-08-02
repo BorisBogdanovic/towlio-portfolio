@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Invite;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\ForgotPasswordRequest;
+use Illuminate\Support\Facades\Password;
 
 
 class AuthController extends Controller
@@ -71,4 +73,37 @@ public function register(RegisterUserRequest $request, $token)
         'user' => $user
     ], 200);
 }
+/////////////////////////////////////////////////////////////////////FORGOT PASSWORD
+public function forgot(ForgotPasswordRequest $request)
+{
+    $status = Password::sendResetLink($request->only('email'));
+
+    if ($status == Password::RESET_LINK_SENT) {
+        return response()->json([
+            'status' => 'We have emailed your password reset link!'
+        ], 200);
+    }
+
+   return response()->json([
+    'status' => 'Unable to send reset link. Please check the email.',
+    'error_code' => $status,  // <-- Ovaj red pravi problem
+], 422);
+}
+/////////////////////////////////////////////////////////////////////RESET PASSWORD
+    public function reset(ResetPasswordRequst $request)
+    {
+
+        $status = Password::reset($request->only('email', 'password', 'token'),
+            function ($user) use ($request) {
+            $user->update([
+                'password' => Hash::make($request->password),
+
+            ]);
+        });
+        if ($status == Password::PASSWORD_RESET) {
+            return response()->json([
+                'message' => 'Password reset successfully'
+            ]);
+        }
+    }
 }

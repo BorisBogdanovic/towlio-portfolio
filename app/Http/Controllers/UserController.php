@@ -1,11 +1,9 @@
 <?php
-
 namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Invite;
 use Illuminate\Support\Str;
-
 use App\Http\Requests\EditUserRequest;
 use App\Http\Requests\UpdatePasswordRequest;
 use App\Http\Requests\GetUsersRequest;
@@ -96,7 +94,7 @@ public function updatePassword(UpdatePasswordRequest $request)
 
     return response()->json([
     'status' => true,
-    'message' => 'Password updated successfully..'
+    'message' => 'Password updated successfully!'
 ], 200);
 }
 

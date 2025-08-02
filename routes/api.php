@@ -10,6 +10,8 @@ Route::get('statuses', [\App\Http\Controllers\MasterDataController::class, 'stat
 Route::patch('register/{token}', [\App\Http\Controllers\AuthController::class, 'register']);
 Route::post('logout', [\App\Http\Controllers\AuthController::class, 'logout'])->middleware('auth:sanctum');
 Route::post('login', [\App\Http\Controllers\AuthController::class, 'login']);
+Route::post('forgot-password', [\App\Http\Controllers\AuthController::class, 'forgot']);
+Route::post('reset-password', [\App\Http\Controllers\AuthController::class, 'reset'])->name('password.reset');
 //USER ROUTE
 Route::get('users', [\App\Http\Controllers\UserController::class, 'getAllUsers'])->middleware('auth:sanctum');
 Route::delete('user/{user}', [\App\Http\Controllers\UserController::class, 'deleteUser'])->middleware('auth:sanctum');
