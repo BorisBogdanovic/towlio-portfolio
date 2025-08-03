@@ -1,8 +1,6 @@
 <?php
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
 //APP SEEDERS
 Route::get('cities', [\App\Http\Controllers\MasterDataController::class, 'cities']);
 Route::get('statuses', [\App\Http\Controllers\MasterDataController::class, 'statuses']);

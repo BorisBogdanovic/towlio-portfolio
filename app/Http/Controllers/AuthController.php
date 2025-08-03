@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Invite;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\ForgotPasswordRequest;
+use App\Http\Requests\ResetPasswordRequest;
 use Illuminate\Support\Facades\Password;
 
 
@@ -90,20 +91,26 @@ public function forgot(ForgotPasswordRequest $request)
 ], 422);
 }
 /////////////////////////////////////////////////////////////////////RESET PASSWORD
-    public function reset(ResetPasswordRequst $request)
-    {
-
-        $status = Password::reset($request->only('email', 'password', 'token'),
-            function ($user) use ($request) {
+  public function reset(ResetPasswordRequest $request)
+{
+    $status = Password::reset(
+        $request->only('email', 'password', 'token'),
+        function ($user) use ($request) {
             $user->update([
                 'password' => Hash::make($request->password),
-
-            ]);
-        });
-        if ($status == Password::PASSWORD_RESET) {
-            return response()->json([
-                'message' => 'Password reset successfully'
             ]);
         }
+    );
+
+    if ($status === Password::PASSWORD_RESET) {
+        return response()->json([
+            'message' => 'Password reset successfully'
+        ], 200);
     }
+
+    return response()->json([
+        'message' => 'Password reset failed',
+        'error_code' => $status
+    ], 422);
+}
 }
