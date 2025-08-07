@@ -1,15 +1,14 @@
-# [NAZIV PROJEKTA] – Full-Stack Developer Portfolio
+# Towlio – Full-Stack Developer Portfolio
 
-A full-stack portfolio website built with [TEHNOLOGIJE].  
-It showcases my personal projects, skills, and contact information in a clean and professional layout.
+This is a full-stack portfolio project developed using **Laravel (backend)** and **React (frontend)**.
 
----
+The application simulates a platform where a business owner can invite vendors to offer towing services, monitor their performance, and manage sales operations.  
+While the project is fictional, it demonstrates my ability to build and manage a real-world full-stack application with user roles, performance tracking, and business logic integration.
 
-## 🔗 Live Demo
-
-[Klikni ovde da vidiš sajt](https://tvoj-domen.com)
 
 ---
+
+
 
 ## 🖼️ Screenshot
 
@@ -21,35 +20,42 @@ It showcases my personal projects, skills, and contact information in a clean an
 
 **Frontend:**
 - React
+- TypeScript
 - Tailwind CSS
+- Redux Toolkit
+- React Query
+- React Hook Form
 
 **Backend:**
-- Node.js
-- Express
+- Laravel (PHP)
 
 **Database:**
-- MongoDB
+- MySQL
 
-**Ostalo:**
-- JWT Auth
-- Cloudinary
+**Other:**
+- Laravel Sanctum (authentication)
+- Mailtrap (email testing)
 - GitHub Actions
 
 ---
 
 ## ✨ Features
 
-- Profesionalni uvod i "About Me" sekcija
-- Projekti sa opisima, linkovima i slikama
-- Kontakt forma sa validacijom i slanjem email-a
-- Potpuno responsive dizajn
-- Tamna i svetla tema (ako postoji)
+- Admin panel with the ability to invite new users
+- User registration, login, and logout via email link (using Mailtrap for testing)
+- Notifications implemented with Hot Toast and Laravel notifications
+- Forgot password and password reset functionality
+- View and manage lists of users and clients
+- Create, filter, and search clients
+- Analytics and statistics display using Chart.js
+- Fully responsive design
+
 
 ---
 
-## 🚀 Pokretanje lokalno
+## 🚀 Running Locally
 
-1. Kloniraj repozitorijum
+1. Clone the repository
 
 ```bash
 git clone https://github.com/tvoje-korisnicko-ime/tvoj-repozitorijum.git
