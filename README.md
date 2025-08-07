@@ -12,7 +12,10 @@ While the project is fictional, it demonstrates my ability to build and manage a
 
 ## 🖼️ Screenshot
 
-![Portfolio Screenshot](./screenshot.png)
+![Login](screenshots/Login.png)
+![Settings](screenshots/Settings.png)
+![Invite](screenshots/Invite.png)
+![Users](screenshots/Users.png)
 
 ---
 
