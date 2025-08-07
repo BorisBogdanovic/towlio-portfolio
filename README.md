@@ -49,6 +49,7 @@ While the project is fictional, it demonstrates my ability to build and manage a
 - Create, filter, and search clients
 - Analytics and statistics display using Chart.js
 - Fully responsive design
+- User Settings page to update personal information and profile pictures
 
 
 ---
@@ -58,4 +59,4 @@ While the project is fictional, it demonstrates my ability to build and manage a
 1. Clone the repository
 
 ```bash
-git clone https://github.com/tvoje-korisnicko-ime/tvoj-repozitorijum.git
+git clone https://github.com/BorisBogdanovic/towlio-portfolio
