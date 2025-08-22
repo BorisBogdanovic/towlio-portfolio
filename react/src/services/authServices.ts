@@ -4,6 +4,7 @@ import {
     LoginResponse,
     RegisterPayload,
     RegisterResponse,
+    ResetPasswordData,
 } from "../types/auth";
 
 ///////////////////////////////////////////////////////////////////////// LOGIN
@@ -88,3 +89,32 @@ export const sendResetLink = async (
 
     return data;
 };
+///////////////////////////////////////////////////////////////////////// RESET PASSWORD
+export async function resetForgotPassword(data: ResetPasswordData) {
+    try {
+        const response = await fetch(`${API_URL}/reset-password`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+            },
+            body: JSON.stringify({
+                email: data.email,
+                password: data.password,
+                password_confirmation: data.password,
+                token: data.token,
+            }),
+        });
+        const result = await response.json();
+        if (!response.ok) {
+            throw new Error(result.message || "Password reset failed");
+        }
+        return result;
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            throw new Error(error.message);
+        } else {
+            throw new Error("Network error");
+        }
+    }
+}

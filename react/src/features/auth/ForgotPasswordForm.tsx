@@ -5,7 +5,7 @@ import Input from "../../Ui/Input";
 import Button from "../../Ui/Button";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useResetPassword } from "../../hooks/useResetPassword";
+import { useForgotPassword } from "../../hooks/useForgotPassword";
 import Loader from "../../Ui/Loader";
 
 function ForgotPasswordForm() {
@@ -14,7 +14,7 @@ function ForgotPasswordForm() {
         email: string;
     };
     const { register, handleSubmit, reset } = useForm<FormValues>();
-    const { mutate: resetPassword, isPending } = useResetPassword(() => {
+    const { mutate: resetPassword, isPending } = useForgotPassword(() => {
         reset();
         navigate("/login");
     });

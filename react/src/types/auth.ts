@@ -35,3 +35,10 @@ export interface RegisterFormData {
     password: string;
     password_confirmation: string;
 }
+
+export interface ResetPasswordData {
+    email: string;
+    password: string;
+    token: string;
+    password_confirmation: string;
+}

@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { sendResetLink } from "../services/authServices";
 import toast from "react-hot-toast";
 
-export function useResetPassword(onSuccessCallback?: () => void) {
+export function useForgotPassword(onSuccessCallback?: () => void) {
     return useMutation({
         mutationFn: (email: string) => sendResetLink(email),
         onSuccess: () => {

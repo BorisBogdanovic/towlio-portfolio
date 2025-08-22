@@ -60,11 +60,14 @@ class User extends Authenticatable
 
 public function sendPasswordResetNotification($token)
 {
-   $frontendUrl = config('app.frontend_url');
+    $frontendUrl = rtrim(config('app.frontend_url'), '/');
     $email = urlencode($this->email);
-    $url = $frontendUrl . '/#/reset-password/' . $token . '/' . $this->email;
 
-    \Mail::to($this->email)->send(new \App\Mail\ResetPasswordEmail($url, $this));
+    $url = "{$frontendUrl}/reset-password?token={$token}&email={$email}";
+
+    \Mail::to($this->email)->send(
+        new \App\Mail\ResetPasswordEmail($url, $this)
+    );
 }
 
 

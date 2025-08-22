@@ -77,21 +77,14 @@ public function register(RegisterUserRequest $request, $token)
 /////////////////////////////////////////////////////////////////////FORGOT PASSWORD
 public function forgot(ForgotPasswordRequest $request)
 {
-    $status = Password::sendResetLink($request->only('email'));
-
-    if ($status == Password::RESET_LINK_SENT) {
-        return response()->json([
-            'status' => 'We have emailed your password reset link!'
-        ], 200);
-    }
-
-   return response()->json([
-    'status' => 'Unable to send reset link. Please check the email.',
-    'error_code' => $status,  
-], 422);
+    Password::sendResetLink($request->only('email'));
+    
+    return response()->json([
+        'status' => 'If your email exists in our system, you will receive a reset link shortly.'
+    ], 200);
 }
 /////////////////////////////////////////////////////////////////////RESET PASSWORD
-  public function reset(ResetPasswordRequest $request)
+public function reset(ResetPasswordRequest $request)
 {
     $status = Password::reset(
         $request->only('email', 'password', 'token'),
@@ -99,10 +92,10 @@ public function forgot(ForgotPasswordRequest $request)
             $user->update([
                 'password' => Hash::make($request->password),
             ]);
+            $user->save();
         }
     );
-
-    if ($status === Password::PASSWORD_RESET) {
+if ($status === Password::PASSWORD_RESET) {
         return response()->json([
             'message' => 'Password reset successfully'
         ], 200);
