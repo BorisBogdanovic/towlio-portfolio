@@ -60,7 +60,7 @@ function ResetPasswordForm() {
                     toast.success("Password reset successful! Please login.");
                     navigate("/login");
                 },
-                onError: (error: any) => {
+                onError: (error) => {
                     toast.error(error?.message || "Something went wrong");
                 },
             }
